@@ -1,0 +1,665 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Ghosties</title>
+        
+        <link rel="apple-touch-icon" sizes="57x57" href="../../icons/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../../icons/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../../icons/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../../icons/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="../../icons/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../../icons/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="../../icons/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="../../icons/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="../../icons/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+        <link rel="manifest" href="../../icons/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="../../icons/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="assets/css/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/style.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie/v9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie/v8.css" /><![endif]-->
+    <link rel="stylesheet" href="../../assets/highlight/styles/default.css">
+    <script src="../../assets/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="../../index.html">MCMASTER <img src="../../images/shield.png" alt="" height="15" width="15"/> OUTREACH</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="../../index.html">Home</a></li>
+											<li><a href="../../menu/tutorials.html">Tutorials</a></li>
+                      <li><a href="../../menu/hackathon.html">Hackathon</a></li>
+                      <li><a href="../../menu/gametemplates.html">Game Templates</a></li>
+											<li><a href="../../menu/solutions.html">Solutions</a></li>
+                      <li><a href="../../menu/past.html">Past Workshops</a></li>
+                      <li><a href="../../menu/resources.html">Resources</a></li>
+                      <li><a href="../../menu/glossary.html">ElM Glossary</a></li>
+                      <li><a href="../../menu/tools.html">Tools</a></li>
+                      <li><a href="../../menu/fame.html">Hall Of Fame</a></li>
+                      <li><a href="../../menu/contact.html">Ask Us Questions?</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<article id="main">
+						<header>
+							<h2>Ghosties</h2>
+							<p>Modify the Ghosties game with Elm!</p>
+						</header>
+						<section class="wrapper style5">
+							<div class="inner">
+<!-- Ghosties -->
+                        <a name="12"></a>
+						<section class="wrapper style5">
+							<div class="inner">
+								
+								<h3>Ghosties</h3>
+								<pre>
+<img src="../../examplepics/ghosties.png" alt="" height="492" width="550"/>
+<strong>Copy all of the following code into the Elm simulator</strong> <a href="http://elm-lang.org:1234/try" target="blank">here</a> and follow the instructions commented within the code to begin modifying the Ghosties game! Click <a href="http://outreach.schankula.ca" target="blank">here</a> for a demonstration of the game!
+                                <code>
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
+import Keyboard
+import Time exposing (..)
+import Window
+import Touch exposing(..)
+import Array
+import Text exposing(..)
+import String
+
+{-GHOSTIES!
+How to play:
+Move your character around the map to find and catch ghosts with your laser beam.
+
+
+Controls:
+          Up arrow : move forward
+          Down arrow : move backward
+          left and right arrows : rotate character
+          Spacebar: flashlight
+          Laserbeam: B key
+
+-}
+
+
+
+
+
+
+
+
+
+-- Hackthon API Code
+-- Use the code below to customize the graphics and levels of the game to make it your
+-- own! 
+
+{-GRAPHICS
+    You can change the graphics of the game here. 
+    
+    All graphics with a "t" in the title can be used with the animations tutorial 
+    on the www.outreach.mcmaster.ca website.
+-}
+
+charModel t = group [ filled white (circle 8)--Change your character by changing or adding lines
+                       , filled white (rect 20 10)
+                  ]
+                  
+                  
+--Ghost graphics
+ghost t = group [ filled white (circle 16)
+              , filled white (rect 32 28) |> move (0,-8)
+              , filled black (circle 4) |> move(-6,0)
+              , filled black (circle 4) |> move(6,0)
+              , filled white (circle 1) |> move(-6,0)
+              , filled white (circle 1) |> move(6,0)
+              ]
+             
+--Background colour 
+bgColour = black   
+
+--background design
+--Try making a scary background!
+bgDesign t = group [
+                     filled yellow (circle 0)
+                   ]
+                 
+                 
+--Flashlight colour
+flashlightColour = yellow
+                 
+                 
+
+--Customize the end of game screen!
+--As shown below, you can use 
+--             ++ health ++
+--in text to display the final health and 
+--             ++ time ++
+--in text to display the total time
+gameWinScreen time health t = group [
+                           ghost t |> scale 5 |> move (0,150)
+                        ,  text (bold (Text.color red (fromString "Congratulations!"))) |> scale 2
+                        ,  text (bold (Text.color green (fromString ("You completed the game in " ++ time ++ " seconds")))) |> scale 1.5 |> move (0,-40)
+                        ,  text (bold (Text.color green (fromString ("and with " ++ health ++ "% health left!")))) |> scale 1.5 |> move (0,-60)  
+                      ]  
+
+
+--Customize the try again screen
+gameOverScreen time health t = group [
+                          ghost t |> scale 5 |> move (0,150)
+                       ,  text (bold (Text.color white (fromString "Game over! :("))) |> scale 2
+                       ,  text (bold (Text.color red (fromString ("You played for " ++ time ++ " seconds before you ran out of health.")))) |> scale 1.5 |> move (0,-40)  
+                       ,  text (bold (Text.color red (fromString ("Press compile or refresh the page to try again!")))) |> scale 1.5 |> move (0,-60)  
+
+                       ]
+
+
+{- GAME LEVELS
+In this section you can customize the game's levels including the questions
+and the ghosts' positions!
+-}
+
+
+--QUESTION LIST
+--Add the questions for each level separated by commas.
+--Make sure to put each question in quotations.
+listQuestions = [
+                   "Welcome To Ghosties! Try spelling out the name of the game." --Level 1
+                ,  "A verb for a faster form of walking." --Level 2
+                ,  "The best University in the universe." --Level 3
+                ]
+
+--GHOST LEVEL LIST
+{-
+
+Use this to add more ghosts to the screen at the start of the level!
+Add new levels by adding new lines. The order of the ghosts is the order
+that the word will appear on screen.
+
+Use the following format for each ghost: 
+                       
+                           (x-position,y-position,health,letter)
+-}
+
+listGhosts = [  
+               [(-180,150,100,"G"),(230,0,100,"h"),(0,200,100,"o"),(-180,-150,100,"s"),(180,150,100,"t"),(-250,0,100,"i"),(0,-200,100,"e"),(180,-150,175,"s")] --Add new ghosts to the screen at the start
+             , [(-226,-100,100,"R"),(250,200,100,"u"),(-200,75,100,"n"),(-100,250,100,"n"),(0,-200,100,"i"),(178,-200,100,"n"),(250,0,175,"g")] --Add new ghosts to the screen at the start
+             , [(200,300,100,"M"),(0,300,100,"c"),(100,400,100,"M"),(0,-250,100,"a"),(100,-20,100,"s"),(10,30,100,"t"),(100,90,100,"e"),(0,100,100,"r")]
+             ]
+
+{-ADVANCED GAME FEATURES
+      If you want you edit the way the game works, use this section!
+-}
+
+--Shortcuts - use these to make creating levels / games / win screens easier
+startLevel = 1 -- Change the level to start at when you hit compile, useful when making levels, 0 is the first level
+showWinScreen = False
+showGameOverScreen = False
+
+{-GAME MECHANICS 
+     Use these to control how the game works.
+-}
+
+playerStartPosX = 0 --Starting x position of the player.
+playerStartPosY = 0 --Starting y position of the player.
+playerSpeed = 1 --Change the player's speed (any decimal number bigger than 0, default is 1)
+healthRegenSpeed = 1 --Change how fast the player regenerates health when not being attacked (default = 1)
+rotationSpeed = 1-- Change the player's rotation speed (any decimal number bigger than 0, default is 1)
+enemySpeed = 1 -- Change the enemy speed (any decimal number bigger than 0, default is 1)
+enemiesVisible = False --Choose to show enemies instead of hide them, useful when making your levels
+attackDistance = 50 --Change how close enemies have to be to deal damage
+laserCost = 1 -- Choose how much battery the laser uses (default = 1, bigger is more usage)
+laserDamage = 1 --Choose how much damage the laser does (default is 1)
+laserDistance = 180 -- Choose how far away the laser can do damage to the ghosts
+rechargeSpeed = 1 -- Choose how fast the battery recharges (default = 1, 0 means it doesn't recharge)
+followingEnabled = True --Choose whether or enemies follow you (if False, they will stay still and not chase you)
+followDistance = 180 -- Choose how far away the ghosts have to be to notice and chase you (default = 180)
+flashlightEnabled = True -- Choose whether to use a flashlight. If enabled, the flashlight must be turned on to see the ghosts.
+flashlightCost = 1 -- Choose how much battery the flashlight uses
+flashlightDistance = 180 -- Choose how far away enemies show up using the flashlight
+radarEnabled = False --Turn radar on or off
+radarDistance = 180 -- Change how close enemies have to be to show up on radar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{-!!!BORING, COMPLICATED CODE!!! -- Not for the Hackathon
+Please DO NOT change this code unless you really know what you're doing as it may cause
+unexpected errors! All the fun stuff to change is up above anyways! :)
+-}
+
+
+
+type alias Model =
+  { x: Float
+  , y: Float
+  , health: Float
+  , rot: Float
+  , flashlight: Light
+  , charge: Float
+  , recharging: Bool
+  , ghosts : List Ghost
+  , level: Int
+  , laser: Light
+  , goToNext : Bool
+  , t: Float
+  , t2: Float
+  }
+  
+type alias Ghost = (Float, Float, Float, String) -- x, y, health, letter
+  
+type Light = On | Off
+
+type WinLose = Win | Lose | None
+
+type alias Keys = 
+  { x:Int, y:Int }
+
+char: Model
+char = let 
+        ghostLevel = Array.get (startLevel-1) (Array.fromList listGhosts)
+       in
+     { x = playerStartPosX
+     , y = playerStartPosY
+     , health = 100
+     , rot = 0
+     , flashlight = Off
+     , charge = 100
+     , recharging = False
+     , ghosts = case ghostLevel of 
+                 Just gl -> gl
+                 Nothing -> []
+     , level = startLevel-1
+     , laser = Off
+     , goToNext = False
+     , t = 0
+     , t2 = 0
+     }
+     
+     
+update : (Keys,Bool,Bool,List Touch,(Int,Int)) -> Model -> Model
+update (keys,space,laser,touches,(w',h')) char =
+  char 
+    |> updateLevel 
+    |> checkNext touches
+    |> moveChar keys (w', h')
+    |> checklight keys space
+    |> updateTime
+    |> checklaser keys laser
+    |> checkRotate keys (w',h')
+    |> updateCharge space
+    |> checkCharging
+    |> updateGhostPositions
+    |> updateGhostHealths
+    |> updatePlayerHealth
+ 
+updateLevel char = 
+              let 
+                 ghostsDead = ghostsDeadCheck char
+                 ghostLevel = Array.get (char.level+1) (Array.fromList listGhosts)
+                 goNext = char.goToNext
+              in
+              { char | ghosts = if ghostsDead && goNext then 
+                                  case ghostLevel of 
+                                    Just gl -> gl
+                                    Nothing -> char.ghosts
+                                else char.ghosts,
+                       level = if ghostsDead && goNext then char.level + 1 
+                               else char.level
+              }
+
+checkWinLose char = if char.level > List.length listGhosts then Win
+                    else if char.health <= 0 then Lose
+                    else None
+
+checkNext touches char = { char | goToNext = if List.length(touches) > 0 then True else False }
+
+
+ghostsDeadCheck char = if List.sum(List.map ghostDeadCheck char.ghosts) == List.length(char.ghosts) then True
+                       else False
+                 
+ghostDeadCheck (x,y,h,l) = if h <= 0 then 1
+                       else 0
+              
+    
+moveChar: Keys -> (Int, Int) -> Model -> Model
+moveChar keys (w', h') char = 
+          let (w,h) = (toFloat w', toFloat h')
+          in
+  { char | 
+      x = if char.x > w/2 then -w/2 
+          else if char.x < -w/2 then w/2
+          else char.x + cos(char.rot) * toFloat keys.y*playerSpeed*2
+    , y = if char.y > h/2 then -h/2
+          else if char.y < -h/2 then h/2 
+          else char.y + sin(char.rot) * toFloat keys.y*playerSpeed*2
+  }
+  
+updateTime char = { char | t = if (checkWinLose char) == None && not (ghostsDeadCheck char) && not showWinScreen && not showGameOverScreen then char.t + 1.0/60 else char.t,
+                           t2 = char.t2 + 1.0/60}  
+  
+checklight: Keys -> Bool -> Model -> Model
+checklight keys space char =
+  { char | 
+      flashlight = if space && char.charge > 0 && char.recharging == False && flashlightEnabled then On else Off 
+  }
+
+checklaser: Keys -> Bool -> Model -> Model
+checklaser keys laser char =
+  { char | 
+      laser = if laser && char.charge > 0 && char.recharging == False then On else Off 
+  }
+
+checkRotate: Keys -> (Int,Int) -> Model -> Model
+checkRotate keys (w',h') char =
+  let (w,h) = (toFloat w', toFloat h')
+  in
+  { char | 
+      rot = 
+             if char.rot > 2*pi then toFloat -keys.x*rotationSpeed/20
+             else if char.rot < 0 then 2*pi+char.rot + toFloat -keys.x*rotationSpeed/20
+             else char.rot + toFloat -keys.x*rotationSpeed/20
+               
+  }
+  
+updateCharge : Bool -> Model -> Model 
+updateCharge space char = 
+  { char | 
+      charge = if char.flashlight == On && char.laser == On then char.charge - 0.2*laserCost*flashlightCost else if char.flashlight == On then char.charge - 0.1*flashlightCost else if char.laser == On then char.charge - 0.1*laserCost else if char.charge < 100 then char.charge + 0.2*rechargeSpeed else if char.charge >= 100 then 100 else char.charge
+  }
+  
+checkCharging : Model -> Model
+checkCharging char = {char | recharging = case char.recharging of
+                                            True -> if char.charge == 100 then False else True
+                                            False -> if char.charge <= 0 then True else False
+                     }
+view : (Int, Int) -> Model -> Element
+view (w', h') char =
+  let 
+    (w,h) = (toFloat w', toFloat h')
+    position = 
+      (char.x/1 , char.y/1)
+    angle = char.rot + degrees 90
+    currQuestion = Array.get (char.level) (Array.fromList listQuestions)
+    questionText = case currQuestion of
+                       Just cq -> cq
+                       Nothing -> ""
+    winLose = checkWinLose char
+  in
+    collage w' h' 
+      [ filled bgColour (rect w h)
+      , bgDesign (char.t2)
+      , group[ charModel char.t2, flashlightModel char, laserModel char] 
+                |> move position 
+                |> rotate angle
+      , (rendGhosts char char.t)
+      , flashlightHUD char |> move(-w/2+100,h/2-50)
+      , healthHUD char |> move (-w/2 + 425,h/2-50) |> scale 2
+      , if radarEnabled then group[radarHUD, group[ charModel char.t2, flashlightModel char] |> scale 0.2 |> rotate (char.rot+pi/2), updateRadar char] |> move(-w/2 + 300, h/2-50) else group []
+      , move (w/2-60,h/2-20) (text (bold (Text.color white (fromString "Level " ++ fromString (toString (char.level+1)))))) |> scale 2
+      , move (0,-h/2+100) (text (bold (Text.color white (fromString questionText)))) |> scale 1.5
+      , renderAnswer char |> move(0,-h/2+50)
+      , if (ghostsDeadCheck char) then move (0,-h/2+20) (text (bold (Text.color white (fromString "Awesome job! Click to go to next level.")))) |> scale 1 else group[]
+      , if ((winLose == Win) || showWinScreen) then group[filled black (rect w h), (gameWinScreen (toString (round char.t)) (toString (round char.health)) char.t2)] else if ((winLose == Lose) || showGameOverScreen) then group[filled black (rect w h), (gameOverScreen (toString (round char.t)) (toString (round char.health)) char.t2)] else group[]
+      ]
+      
+--Laser graphics               
+laserModel char = if char.laser == On
+                     then group [filled red (rect 5 laserDistance)
+                                   -- |> rotate (degrees 90)
+                                    |> move(0,-100)]
+                  else group []
+                  
+                  
+flashlightHUD char = let size = char.charge*1.5 in
+                    group [filled grey (rect 200 100)
+                    ,  filled grey (rect 20 50) |> move(110,0) 
+                    ,  filled (rgb 100 100 100) (rect 155 65)
+                    ,  filled (if char.recharging then red else green) (rect size 60) |> move(size/2-75,0)
+                    ]    
+            
+--Change the design of the radar screen.
+radarHUD = group [ filled green (circle 40)
+                 , filled black (circle 39)
+                 , filled green (circle 30)
+                 , filled black (circle 29)
+                 , filled green (circle 20)
+                 , filled black (circle 19)
+                 ]
+                 
+healthHUD char = let size = char.health/100*39
+                 in
+                  group [ filled grey (square 41)
+                  , filled (rgb 100 100 100) (square 39)
+                  , filled red (rect 39 size) |> move(0,size/2-19.5)
+                  , filled grey (square 15) |> move(-12.5,12.5)
+                  , filled grey (square 15) |> move(12.5,12.5)
+                  , filled grey (square 15) |> move(-12.5,-12.5)
+                  , filled grey (square 15) |> move(12.5,-12.5)
+                  ]
+                  
+--Flashlight graphics
+flashlightModel char = if char.flashlight == On 
+                          then group [filled flashlightColour (ngon 3 100) --Change model of flashlight in on position
+                                   |> rotate (degrees 90) 
+                                   |> move(0,-110),
+                               filled flashlightColour (oval 170 50)
+                                   |> move(0,-160)
+                               ] 
+                       else group [] --Change model of flashlight in off position
+                       
+      
+renderAnswer char = text(Text.color white(fromString (String.join "" (List.map renderLetter char.ghosts)))) |> scale 2--group(List.map (renderLetter char.ghosts) char.ghosts)
+renderLetter (x,y,h,l) = let
+                           ghostDead = if(ghostDeadCheck (x,y,h,l)) == 1 then True 
+                                       else False
+                     in
+                     if not ghostDead then "____ " else "    " ++ l ++ "     "
+                      
+ 
+      
+rendGhosts char t = group (List.map (rendGhost char t) char.ghosts)
+
+rendGhost: Model -> Float -> Ghost -> Form
+rendGhost char t (x,y,h,l)  = let dx = x-char.x
+                                  dy = y-char.y
+                                  distance = dx*dx + dy*dy
+                                  angle  = (atan2 dy dx)/(pi/180)
+                                  angle2 = if angle < 0 then angle + 360 else angle
+                                  rot = (char.rot/(pi/180))
+                         in
+
+                         if (distance < flashlightDistance^2 && abs(angle2 - rot) < 30 && char.flashlight == On || enemiesVisible) && h > 0 then 
+                            group [ ghost t |> move(x,y) 
+                                  , text(fromString l) |> scale 1 |> move(x,y-10)]
+                         else group []
+    
+updateGhostPositions char = {char | 
+                              ghosts = List.map (updateGhostPosition char) char.ghosts 
+                            } 
+                            
+updateGhostPosition char (x,y,h,l) = let dx = x-char.x
+                                         dy = y-char.y
+                                         cdx = List.sum(List.map (checkCollisionX  (x,y,h,l)) char.ghosts)
+                                         cdy = List.sum(List.map (checkCollisionY  (x,y,h,l)) char.ghosts)
+                                         distance = (dx*dx + dy*dy)
+                                    in
+                                     if distance < followDistance^2 && distance > 50*50 && followingEnabled
+                                         then (x - dx/100*enemySpeed +cdx,y - dy/100*enemySpeed +cdy,h,l)
+                                     else (x,y,h,l)
+                                     
+                                     
+updateGhostHealths char = { char |
+                             ghosts = List.map (updateGhostHealth char) char.ghosts
+                          }
+                          
+updateGhostHealth char (x,y,h,l) = let dx = x-char.x
+                                       dy = y-char.y
+                                       distance = (dx*dx + dy*dy)
+                                       angle  = (atan2 dy dx)/(pi/180)
+                                       angle2 = if angle < 0 then angle + 360 else angle
+                                       rot = (char.rot/(pi/180))
+                         in
+
+                         if distance < laserDistance^2 && abs(angle2 - rot) < 5 && char.laser == On then 
+                            (x,y,h-3*laserDamage,l)
+                         else (x,y,h,l)
+                         
+updatePlayerHealth char = let
+                            numAttacking = List.sum(List.map (ghostAttacking char) char.ghosts)
+                          in 
+                            { char |
+                                  health = if numAttacking > 0 && char.health > 0 && not showWinScreen && not showGameOverScreen && ((checkWinLose char) == None) then char.health - numAttacking/20
+                                           else if char.health < 100 && ((checkWinLose char) == None) then char.health + 0.03*healthRegenSpeed
+                                           else if char.health > 100 && ((checkWinLose char) == None) then 100
+                                           else if char.health < 0 then 0
+                                           else char.health
+                            }
+
+ghostAttacking char (x,y,h,l) = let dx = x-char.x
+                                    dy = y-char.y
+                                    distance = (dx*dx + dy*dy)
+                                in
+                                if distance <= attackDistance^2 && h > 0 then 1
+                                else 0
+
+checkCollisionX : Ghost -> Ghost -> Float
+checkCollisionX (x,y,h,l) (cx,cy,ch,cl) = let dx = x-cx
+                                              dy = y-cy
+                                              distance = (dx*dx + dy*dy)
+                                         in
+                                         if distance < 40^2 then
+                                            (dx)/50
+                                         else
+                                             0
+                                         
+                                         
+checkCollisionY : Ghost -> Ghost -> Float
+checkCollisionY (x,y,h,l) (cx,cy,ch,cl) = let dx = x-cx
+                                              dy = y-cy
+                                              distance = (dx*dx + dy*dy)
+                                         in
+                                         if distance < 40^2 then
+                                             (dy+1)/50
+                                         else
+                                             0
+
+updateRadar char = group(List.map (radarPing char) char.ghosts)
+
+radarPing: Model -> Ghost -> Form
+radarPing char (x,y,h,l) = let dx = x-char.x
+                               dy = y-char.y
+                               distance = (dx*dx + dy*dy)
+                           in
+                           if distance < radarDistance^2 && h > 0
+                                then filled red (circle 2) |> move(dx/5*(180/radarDistance),dy/5*(180/radarDistance))
+                           else group []
+
+checkBTNTouches touches (w',h') char =
+          let  (w,h) = (toFloat w', toFloat h')
+               flashlight = if List.sum(List.map (checkflashlight (w,h)) touches) > 0 then On else Off
+               forward = if List.sum(List.map (checkforward (w,h)) touches) > 0 then True else False
+
+          in
+          { char | flashlight = flashlight }
+
+
+checkflashlight (w,h) currTouch  = if toFloat currTouch.x > w-150-25 && toFloat currTouch.x < w-150+25 && toFloat currTouch.y > h-70-55 && toFloat currTouch.y < h-70+55 then 1 else 0
+checkforward (w,h) currTouch  = if toFloat currTouch.x > w-150-25 && toFloat currTouch.x < w-150+25 then 1 else 0
+            
+            
+--lightBulb recharging = group [filled grey (rect 15 40) |> move(0,-20), filled (if recharging then grey else yellow) (oval 40 50)]
+    
+main: Signal Element
+main = 
+  Signal.map2 view Window.dimensions (Signal.foldp update char input)
+  
+input : Signal (Keys,Bool,Bool,List Touch,(Int,Int))
+input = 
+  let
+    delta = Signal.map( \t -> t/20) (fps 60)
+  in
+    Signal.sampleOn delta (Signal.map5 (,,,,) Keyboard.arrows Keyboard.space (Keyboard.isDown 66) Touch.touches Window.dimensions)
+                                </code>
+                                </pre>
+                            </div>
+                        </section>
+                        
+					
+                        
+                        
+<a href="../formatting/formatting.html" class="button fit">Previous Tutorial</a>
+<a href="../../menu/tutorials.html" class="button fit">Back to Tutorials</a>
+<a href="../bunny/bunny.html" class="button fit">Next Tutorial</a>                           
+
+							</div>
+						</section>
+					</article>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="http://www.twitter.com/MacCASOutreach" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="http://www.facebook.com/McMasterCASOutreach" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							
+							<li><a href="../../menu/contact.html" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy;legionn_&amp; code_blooded 2015 <br> McMaster Computing and Software 2015</br> </li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/init.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Shapes</title>
+        
+        <link rel="apple-touch-icon" sizes="57x57" href="../../icons/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../../icons/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../../icons/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../../icons/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="../../icons/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../../icons/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="../../icons/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="../../icons/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="../../icons/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+        <link rel="manifest" href="../../icons/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="../../icons/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="assets/css/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/style.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie/v9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie/v8.css" /><![endif]-->
+		<link rel="stylesheet" href="../../assets/highlight/styles/default.css">
+    	<script src="../../assets/highlight/highlight.pack.js"></script>
+    	<script>hljs.initHighlightingOnLoad();</script>
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="../../index.html">MCMASTER <img src="../../images/shield.png" alt="" height="15" width="15"/> OUTREACH</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="../../index.html">Home</a></li>
+											<li><a href="../../menu/tutorials.html">Tutorials</a></li>
+											<li><a href="../../menu/hackathon.html">Hackathon</a></li>
+											<li><a href="../../menu/activities.html">Activities</a></li>
+                      						<li><a href="../../menu/gametemplates.html">Game Templates</a></li>
+											<li><a href="../../menu/solutions.html">Solutions</a></li>
+                                            <li><a href="../../menu/past.html">Past Workshops</a></li>
+                                            <li><a href="../../menu/resources.html">Resources</a></li>
+                                            <li><a href="../../menu/glossary.html">ElM Glossary</a></li>
+                                            <li><a href="../../menu/tools.html">Tools</a></li>
+                                            <li><a href="../../menu/fame.html">Hall Of Fame</a></li>
+                                            <li><a href="../../menu/contact.html">Ask Us Questions?</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<article id="main">
+						<header>
+							<h2>Shapes</h2>
+							<p>Create Images using just 2D shapes!</p>
+						</header>
+						<section class="wrapper style5">
+							<div class="inner">
+
+								<!-- 2D Shapes -->
+                    	<a name="1"></a>
+						<section class="wrapper style5">
+							<div class="inner">
+								
+								
+                                <div class="image"></div>
+                                <div class="content">
+                                <h3>Shapes</h3>
+                                <p>
+                                <img src="../../examplepics/create.gif" alt="" />
+								<pre>
+<img src="../../examplepics/heart.png" alt="" height="180" width="180"/><img src="../../examplepics/shapes.jpg" alt="" height="180" width="180"/><img src="../../examplepics/sunnyhouse.jpg" alt="" height="180" width="180"/><img src="../../examplepics/batman.jpg" alt="" height="180" width="180"/>
+<img src="../../examplepics/ironman.png" alt="" height="180" width="180"/>
+<b>Objectives of this tutorial:</b>
+1.	Learn to build shapes
+2.	Learn to transform shapes
+
+<b>Exercises:</b>
+1. Click on the <a href="http://elm-lang.org:1234/examples/shapes" target="_blank">Code Set 1</a>.
+    A) Change one of the shapes to a circle 
+	Try: Change <code class="nohighlight">ngon 5 50</code> to <code class="nohighlight">circle 20</code> then click COMPILE.
+    
+    B) Increase the size of the circle to any number you like (Example: <code class="nohighlight">circle 35</code>)
+    	***If your shapes are getting cut off, change your canvas size which is <code class="nohighlight">collage 300 300</code> to <code class="nohighlight">collage 700 700</code> or any other size to fit your screen!
+    
+    C) Change the colour of the shapes. Choose a simple colour you like, since some colours may not be built into the colour module. 
+	Try: Change <code class="nohighlight">filled clearGrey</code> to <code class="nohighlight">filled red</code>
+
+    D) Then make a second circle by repeating the line of code that makes a circle. 
+    (Remember to stay inside the square brackets and separate each shape with a comma and remember to close all brackets!)
+
+    An example of this is: 
+    <code>  
+    [ ngon 4 50 			-- this is the first shape
+    	|> filled red 			-- this is its colour
+    	|> move (0,0) 			-- this is where it gets positioned on the canvas
+    
+    , circle 36				-- this is a 2nd shape
+    	|> filled red 			-- its colour
+    	|> move (20,20)			-- where its positioned on the canvas
+    
+    , (circle 36)
+    	|> filled red
+    	|> move (-20,20)
+    ]
+</code>
+    
+	E) If you want to choose between a variety of colours, you can use the hsl function:
+		Replace <code class="nohighlight">filled red</code> with <code class="nohighlight">filled (hsl 0 1 0.4)</code>, and press COMPILE.
+		Did you notice a difference? NO! because <i> (hsl 0 1 0.4) </i> is the colour code for <i> red </i>! 
+
+	Every colour can be represented by writing <i>3 decimal numbers</i> beside the word <i>hsl </i>! You can make <b>custom colours</b> by generating colour codes through our <a href="http://outreach.mcmaster.ca/tools/ColourPicker.html" target="_blank">Colour Picker</a>!
+
+	Click <a href ="http://www.december.com/html/spec/colorhslcompact.html" targer="_blank">here</a> to get hsl colour codes for some other commonly used custom colours.
+
+    F) Change the position of your shapes by filling the blanks in <code class="nohighlight">move (_,_)</code>, the first blank makes your shape move left and right, and the second blank makes your shape move up and down movement.
+
+    (Use <b>negative</b> numbers to move your shape left or down, and <b>positive</b> numbers to move it right or up). These two numbers are called <i>Cartesian coordinates.</i> 
+
+	Try: Add <code class="nohighlight"> |> move (0,0) </code> to one of your shapes 
+		Then change <code class="nohighlight"> |> move (0,0) </code> to <code class="nohighlight"> move (100,100) </code>.
+
+	(This moves your shape 100 pixels up and 100 pixels right.)
+
+>> CHALLENGE: Re-arrange all 3 shapes to make a heart
+>> BONUS: Create anything you like and if we like it, we will put it on the <a href="../../menu/fame.html" target="_blank">Hall of Fame!</a>
+
+<b>Syntax Reference:</b>
+Put a number in place of each underscore!
+Shapes: 
+	The first number after ngon represents the number of sides of the shape. The second is the size.
+	<code class="nohighlight">ngon _ _ </code> 
+Oval: 
+	<code class="nohighlight">oval _ _ </code> (Oval with a width and height)   
+Triangle: 
+	Triangle has 3 sides
+	<code class="nohighlight">ngon 3 _ </code>    
+Rectangle: 
+	<code class="nohighlight">rect _ _</code>
+Square: 
+	Width and height are the same length for a square
+	<code class="nohighlight">square _</code> 
+Polygon:
+	A list of points that are connected to form any shape possible 
+	<code class="nohighlight">polygon [( _ , _ ), ( _ , _ ), ( _ , _ ),( _ , _ ) … ]</code> 
+    
+Functions to apply to shapes:
+	Place these functions to the right of the shape that you would like to modify.
+
+	<code class="nohighlight">|> rotate (degrees _ )</code>
+	<code class="nohighlight">|> scale _ </code>
+	<code class="nohighlight">|> move ( _ , _ )</code>
+    
+<b>Code links and examples:</b>
+
+	<a href="http://elm-lang.org:1234/examples/shapes" target="_blank">Code Set 1</a>
+	<a href="http://elm-lang.org:1234/examples/clock" target="_blank">Code Set 2</a>
+                                
+<b>For more references visit this <a href="http://package.elm-lang.org/packages/elm-lang/core/3.0.0/Graphics-Collage" target="_blank">link!</a></b>
+
+</pre></p>
+
+
+<a href="../../menu/tutorials.html" class="button fit">Back to Tutorials</a>
+<a href="../animation/animation.html" class="button fit">Next Tutorial</a>
+
+
+
+							</div>
+						</section>
+
+							</div>
+						</section>
+					</article>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="http://www.twitter.com/MacCASOutreach" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="http://www.facebook.com/McMasterCASOutreach" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							
+							<li><a href="../../menu/contact.html" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy;legionn_&amp; code_blooded 2015 <br> McMaster Computing and Software 2015</br> </li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/init.js"></script>
+
+	</body>
+</html>

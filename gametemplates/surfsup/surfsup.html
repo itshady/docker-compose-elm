@@ -1,0 +1,595 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Surf's Up</title>
+        
+        <link rel="apple-touch-icon" sizes="57x57" href="../../icons/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../../icons/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../../icons/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../../icons/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="../../icons/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../../icons/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="../../icons/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="../../icons/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="../../icons/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+        <link rel="manifest" href="../../icons/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="../../icons/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="assets/css/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/style.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie/v9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie/v8.css" /><![endif]-->
+    <link rel="stylesheet" href="../../assets/highlight/styles/default.css">
+    <script src="../../assets/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="../../index.html">MCMASTER <img src="../../images/shield.png" alt="" height="15" width="15"/> OUTREACH</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="../../index.html">Home</a></li>
+											<li><a href="../../menu/tutorials.html">Tutorials</a></li>
+                      <li><a href="../../menu/hackathon.html">Hackathon</a></li>
+                      <li><a href="../../menu/gametemplates.html">Game Templates</a></li>
+											<li><a href="../../menu/solutions.html">Solutions</a></li>
+                      <li><a href="../../menu/past.html">Past Workshops</a></li>
+                      <li><a href="../../menu/resources.html">Resources</a></li>
+                      <li><a href="../../menu/glossary.html">ElM Glossary</a></li>
+                      <li><a href="../../menu/tools.html">Tools</a></li>
+                      <li><a href="../../menu/fame.html">Hall Of Fame</a></li>
+                      <li><a href="../../menu/contact.html">Ask Us Questions?</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<article id="main">
+						<header>
+							<h2>Surf's Up</h2>
+							<p>Modify the Surf's Up game with Elm!</p>
+						</header>
+						<section class="wrapper style5">
+							<div class="inner">
+<!-- Surf's Up -->
+                        <a name="12"></a>
+						<section class="wrapper style5">
+							<div class="inner">
+								
+								<h3>Surf's Up</h3>
+								<pre>
+<img src="../../examplepics/surfsup.png" alt="" height="492" width="550"/>
+<strong>Copy all of the following code into the Elm simulator</strong> <a href="http://elm-lang.org:1234/try" target="blank">here</a> and follow the instructions commented within the code to begin modifying the math trap game!
+                                <code>
+import Html exposing (..)
+import Html.Events exposing (onClick)
+import Text exposing (..)
+import List 
+import Basics exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
+import Color exposing (..)
+import Keyboard
+import Time exposing (..)
+import Touch exposing (..)
+import Array
+
+areaWidth = 600 -- change the width of the play area 
+areaHeight = 600 -- change the height of the play area
+--Hackathon API Code: Change things here!!
+--use this to change the player graphics!
+player = group [minion |> move (0,40)] |> scale 0.55
+
+questionBackgroundColour = green
+
+winScreen = group[
+                    filled red (circle 50)   
+                 ]
+
+
+xSpeed = 1
+ySpeed = 0.5
+
+--Add new lines to this list to add new whirlpools or change the current ones
+obsList = [
+            [(100,75),(90,-50),(110,10),(-100,-50),(-50,-40),(-90,30),(60,60)],
+            [(0,0)],
+            [(0,100)]
+          ]
+--Change size of trap
+--(1 is normal, more than 1 is bigger)
+trapSize = 1
+--Surf board color
+surfBoardColor = yellow
+--Change background colour of the play area
+backgroundColour = blue
+
+backgroundGraphics t = group[
+                               filled (rgb 225 185 143) (rect 300 900) |> move(300,0)
+                            ,  filled blue (oval (abs(25*cos(t/1800))+25) 110) |> move (145,250)
+                            ,  filled blue (oval (abs(25*cos(t/2000))+25) 110) |> move (145,175)
+                            ,  filled blue (oval (abs(25*cos(t/1800))+25) 110) |> move (145,125)
+                            ,  filled blue (oval (abs(25*cos(t/2000))+25) 160) |> move (145,0)
+                            ,  filled blue (oval (abs(25*cos(t/1500))+25) 110) |> move (145,-125)
+                            ,  filled blue (oval (abs(25*cos(t/2000))+25) 110) |> move (145,-175)
+                            ,  filled blue (oval (abs(25*cos(t/2200))+25) 110) |> move (145,-250)
+                            ]
+
+initX = -250 --Change the starting x position of the player
+initY = 0 -- Change the starting y-position of the player
+questionTxt = "(5+10)*5 = ?" --change the question 
+--What are the possible answers?
+questionsTxt =  [
+                  "Which one is spelled correctly?" --change the question 
+                , "Which one is a verb?" 
+                , "Which one is a noun?" 
+                ]
+
+
+answersTxt = [
+                ["Thier","Wasnt","They're","Are'nt"],
+                ["Toronto","Surfing","Hackathon","Surfboard"],
+                ["Red","Walk","Quickly","Minion"]
+             ]
+
+
+--Which answer is correct?
+
+answersCorrect = [
+                    [Wrong,Wrong,Correct,Wrong],
+                    [Wrong,Correct,Wrong,Wrong],
+                    [Wrong,Wrong,Wrong,Correct]
+                 ]
+               
+
+   
+
+
+
+--ADVANCED CODE BELOW! NOT FOR HACKATHON
+
+
+--Start time 
+{-| Read more about StartApp and how this works at:
+    https://github.com/evancz/start-app
+The rough idea is that we just specify a model, a way to view it,
+and a way to update it. That's all there is to it!
+-}
+
+type Answer = Correct | Wrong 
+
+type alias Keys = { x:Int, y:Int }
+
+main : Signal Html
+main =
+  Signal.map2 view (Signal.foldp update model input) (every millisecond)
+
+input : Signal (Float, Keys)
+input =
+  let
+    delta = Signal.map (\t -> t/20) (fps 30)
+  in
+    Signal.sampleOn delta (Signal.map2 (,) delta Keyboard.arrows)
+    
+type alias Model = {  x : Float, 
+                      y : Float, 
+                      areaW: Float, 
+                      areaH: Float, 
+                      onTrap: Bool, 
+                      obstacleList: List (Float,Float), 
+                      visibleList: List Bool, 
+                      gameEnded: Bool, 
+                      level: Int,
+                      questionText: String,
+                      answersText: List String,
+                      currCorrectAnswers: List Answer
+                    }
+
+model = let initLevel = Array.get 0 (Array.fromList obsList)
+            initAtxt = Array.get 0 (Array.fromList answersTxt)
+            initA = Array.get 0 (Array.fromList answersCorrect)
+            initQtxt = Array.get 0 (Array.fromList questionsTxt)
+        in
+          { x = initX, 
+            y = initY, 
+            areaW = areaWidth, 
+            areaH = areaHeight, 
+            onTrap = False, 
+            obstacleList = case initLevel of 
+                          Just ol -> ol
+                          Nothing -> [],
+            visibleList = List.repeat (len 0) False, 
+            gameEnded = False, 
+            level = 0,
+            answersText = case initAtxt of 
+                                    Just at -> at
+                                    Nothing -> [],
+            currCorrectAnswers = case initA of
+                                    Just ia -> ia
+                                    Nothing -> [],
+            questionText = case initQtxt of 
+                                    Just qt -> qt
+                                    Nothing -> ""
+          }
+
+
+
+len level = let l = Array.get level (Array.fromList obsList)
+      in
+      case l of 
+        Just ol -> List.length ol
+        Nothing -> 0
+
+
+view model t = div [] [fromElement (shape model t)]
+                  
+shape model t = collage (round (model.areaW)) (round (model.areaH)) 
+                      [ rect (model.areaW) (model.areaH) |> filled black
+                      , rect (model.areaW) (model.areaH) |> filled backgroundColour
+                      , backgroundGraphics t
+                      , question model |> move(-110,260)                      , obstacleDrawer model.obstacleList model.visibleList
+                      --, wave |> move ()
+                      , surfBoard |> move (0,20) |> move (model.x,model.y)  
+                      , player |> move (0,20) |> move (model.x,model.y)
+                      , renderAnswersTxt model
+                      , answerBG
+                      , if gameWon model then group[filled blue (rect 600 600), winScreen] else group[]
+                      ]
+
+gameWon model = if model.level == List.length(obsList) then True else False
+                      
+question model = group [rect 352 52 |> filled black, rect 350 50 |> filled questionBackgroundColour, questionText model]
+questionText model = group [Graphics.Collage.text (Text.bold(Text.fromString model.questionText))]
+obstacleDrawer l lvis = group (List.map2 drawObstacle l lvis)
+drawObstacle (x,y) vis = (obstacle vis) |> move (x, y)
+obstacle vis = group [if vis then whirlpool else filled black (circle 0)]
+obsradius = 500
+whirlpool = group [  dent |> scale 2.5
+                 , dent |> scale 1.6 |> move (0,-5)
+                 , dent |> move (0,-10)
+                 , dent |> scale 0.5 |> move (0,-15)
+                 
+                 ] |> scale 0.9
+dent = group [      (filled darkBlue (oval 35 16)) 
+                 , (filled blue (oval 31 10)) |> scale 0.98 |> move (0,-2.7)]
+
+onCoordinate : { a | x : number', y : number } -> (number,number) -> Bool
+onCoordinate model (x,y) = func model (x,y) <= obsradius                           
+trapChecker model = List.map (onCoordinate model) model.obstacleList
+visUpdate model = List.map2 (onCoordinateVis model) model.obstacleList model.visibleList
+onCoordinateVis model (x,y) visible = if func model (x,y) <= obsradius && visible == False then True 
+                                   else if visible then True 
+                                   else False
+func model (x,y) = ((x-model.x)^2+(y-model.y)^2)
+--Return True or false
+listChecker : { a | x : number', y : number, obstacleList: List(number,number) } -> Bool
+listChecker model = List.foldr (||) (False) (trapChecker model) 
+--If empty, no true (no trap contact), thus return false else true
+checkTrap model = (listChecker model) 
+resetX = initX
+resetY = initY
+
+update : (Float, Keys) -> Model -> Model
+update (dt, keys) model =
+  model |> checkCol
+        |> updateModel keys dt 
+        |> changeLevel
+
+checkNewLevel model = if (checkAnswer model) then True else False
+
+changeLevel model  = let  newLevel = checkNewLevel model
+                          level = Array.get (model.level+1) (Array.fromList obsList)
+                          aTxt = Array.get (model.level+1) (Array.fromList answersTxt)
+                          a = Array.get (model.level+1) (Array.fromList answersCorrect)
+                          qTxt = Array.get (model.level+1) (Array.fromList questionsTxt)
+                     in
+                        {model |
+                                obstacleList = if newLevel then case level of 
+                                                        Just ol -> ol
+                                                        Nothing -> []
+                                               else model.obstacleList,
+                                answersText =  if newLevel then case aTxt of 
+                                                        Just at -> at
+                                                        Nothing -> []
+                                               else model.answersText,
+                                currCorrectAnswers = if newLevel then case a of
+                                                        Just ia -> ia
+                                                        Nothing -> []
+                                                     else model.currCorrectAnswers,
+                                questionText = if newLevel then case qTxt of 
+                                                        Just qt -> qt
+                                                        Nothing -> ""
+                                               else model.questionText,
+                                x = if newLevel then initX else model.x,
+                                y = if newLevel then initY else model.y,
+                                level = if newLevel then model.level+1 else model.level,
+                                visibleList = if newLevel then List.repeat (len model.level) False else model.visibleList
+                        }
+
+checkCol model = { model | y = if model.y >= 220 then 220
+                               else if model.y <= -220 then -220
+                               else model.y,
+
+                           x = if model.x >= 260 then 260
+                           else if model.x <= -260 then -260
+                           else  model.x}
+
+
+updateModel keys dt model  = -- Gets the top of the list.
+                                          { model | onTrap = checkTrap model,
+                                          visibleList= visUpdate model,
+                                          gameEnded = checkAnswer model,
+                                          y = if not model.onTrap then ySpeed + model.y + (toFloat keys.y) * dt 
+                                              else resetY,
+                                          x = if not model.onTrap then (xSpeed) + model.x + toFloat keys.x * dt 
+                                              else resetX}
+
+renderAnswersTxt model =  let
+                        answerATxt = case (Array.get 0 (Array.fromList model.answersText)) of
+                                      Just a -> a
+                                      Nothing -> ""
+                        answerBTxt = case (Array.get 1 (Array.fromList model.answersText)) of
+                                      Just a -> a
+                                      Nothing -> ""
+                        answerCTxt = case (Array.get 2 (Array.fromList model.answersText)) of
+                                      Just a -> a
+                                      Nothing -> ""
+                        answerDTxt = case (Array.get 3 (Array.fromList model.answersText)) of
+                                      Just a -> a
+                                      Nothing -> "" 
+                    in
+               group[ 
+                    Graphics.Collage.text(Text.bold(Text.fromString answerATxt)) |> move (230,225) |> scale 1
+                  , Graphics.Collage.text(Text.bold(Text.fromString answerBTxt)) |> move (230,75) |> scale 1
+                  , Graphics.Collage.text(Text.bold(Text.fromString answerCTxt)) |> move (230,-75) |> scale 1
+                  , Graphics.Collage.text(Text.bold(Text.fromString answerDTxt)) |> move (230,-225) |> scale 1]
+
+answerBG= group[ rect 175 5          -- first option
+                      |> filled (rgb 101 67 33)
+                      |> move (260,-150)
+                      , rect 175 5    --second option
+                      |> filled (rgb 101 67 33) 
+                      |> move (260,0)
+                      , rect 175 5    --third option
+                      |> filled (rgb 101 67 33) 
+                      |> move (260,150)
+               ]  
+
+
+wavyFunction = (2*cos(model.y)) 
+checkAnswer model = let
+                        answerA = case (Array.get 0 (Array.fromList model.currCorrectAnswers)) of
+                                      Just a -> a
+                                      Nothing -> Wrong
+                        answerB = case (Array.get 1 (Array.fromList model.currCorrectAnswers)) of
+                                      Just a -> a
+                                      Nothing -> Wrong
+                        answerC = case (Array.get 2 (Array.fromList model.currCorrectAnswers)) of
+                                      Just a -> a
+                                      Nothing -> Wrong
+                        answerD = case (Array.get 3 (Array.fromList model.currCorrectAnswers)) of
+                                      Just a -> a
+                                      Nothing -> Wrong
+                    in 
+                    if model.x > 190 && model.y > 150 && answerA == Correct then True 
+                    else if model.x > 190 && model.y > 0 && model.y < 150 && answerB == Correct then True
+                    else if model.x > 190 && model.y > -150 && model.y < 0 && answerC == Correct then True
+                    else if model.x > 190 && model.y > -300 && model.y < -150 && answerD == Correct then True
+                    else False
+-----------------------------------------------------------------------------------------------------------------------                    
+surfBoard = group [oval 80 25 |> filled black |> move (0,-20) 
+                  , oval 79 23 |> filled surfBoardColor |> move (0,-20)
+                  --, ngon 3 10 |> filled black |> move (-22,-15) |> rotate (degrees -29)
+                  --, ngon 3 10 |> filled yellow |> move (-22,-16) |> rotate (degrees -29)
+                  ]
+
+rabbit = group [
+      -- Feet 
+       move (-14,-22) (filled black (oval 10 20)) |> rotate (degrees -70)
+      , move (-14,-22) (filled white (oval 8 18)) |> rotate (degrees -70)
+      , move (3,-25) (filled black (oval 10 20)) |> rotate (degrees -50)
+      , move (3,-25) (filled white (oval 8 18)) |> rotate (degrees -50)
+      -- Body
+      , move (0,3) (filled black (oval 42 52))
+      , move (0,3) (filled white (oval 40 50))
+      -- Hands
+      , move (7,0) (filled black (oval 7 15)) |> rotate (degrees -30)
+      , move (7,0) (filled white (oval 5 13)) |> rotate (degrees -30)
+      , move (-7,0) (filled black (oval 7 15)) |> rotate (degrees 40)
+      , move (-7,0) (filled white (oval 5 13)) |> rotate (degrees 40)
+      , move (-12,5) (filled white (ngon 4 6)) |> rotate (degrees 0)
+      , move (11,6) (filled white (ngon 4 6)) |> rotate (degrees 20)
+      -- Ears
+      , move (-20,90) (filled black (oval 27 72)) |> rotate (degrees 25)
+      , move (15,90) (filled black (oval 27 72)) |> rotate (degrees -20)
+      , move (-20,90) (filled white (oval 25 70)) |> rotate (degrees 25)
+      , move (15,90) (filled white (oval 25 70)) |> rotate (degrees -20)
+      , move (-20,90) (filled darkGrey (oval 15 55)) |> rotate (degrees 25) 
+      , move (15,90) (filled darkGrey (oval 15 55)) |> rotate (degrees -20)
+      , move (0,55) (filled white (circle 30))
+      -- Face
+      , move (0,55) (filled black (circle 31))
+      , move (0,55) (filled white (circle 30))
+      , move (0,30) (filled black (oval 60 24))
+      , move (0,30) (filled white (oval 58 22))
+      -- Eyes
+      , move (-13,55) (filled black (oval 15 35)) 
+      , move (13,55) (filled black (oval 15 35))
+      , move (-13,55) (filled white (oval 13 32))
+      , move (13,55) (filled white (oval 13 32))      
+      -- Pupils
+      , move (-13,55) (filled black (oval 9 27)) 
+      , move (13,55) (filled black (oval 9 27))
+      , move (-13,60) (filled white (circle 2.5))
+      , move (13,60) (filled white (circle 2.5))
+      , move (-14,55) (filled white (circle 1.5))
+      , move (12,55) (filled white (circle 1.5))
+      , move (0,35) (filled white (rect 45 20))
+      , move (-13,45) (filled black (rect 11 1))
+      , move (13,45) (filled black (rect 11 1))      
+      -- Teeth
+      , move (-3,25) (filled black (rect 7 23))
+      , move (3,25) (filled black (rect 7 23))
+      , move (-3,25) (filled white (rect 5 21))
+      , move (3,25) (filled white (rect 5 21))      
+      -- Mouth
+      , move (-5,30) (filled black (circle 5))
+      , move (5,30) (filled black (circle 5))
+      , move (-5,30) (filled white (circle 4))
+      , move (5,30) (filled white (circle 4))
+      , move (0,34) (filled white (rect 20 6))      
+      -- Nose
+      , move (0,36) (filled black (ngon 3 6)) |> rotate (degrees 30)
+      , move (0,39) (filled black (oval 13 4)) |> scale 0.6
+      , move (3,35) (filled black (oval 13 4)) |> rotate (degrees 62) |> scale 0.6
+      , move (-3,35) (filled black (oval 13 4)) |> rotate (degrees 118) |> scale 0.6
+      , move (-2,35) (filled white (oval 8 2)) |> rotate (degrees 118) |> scale 0.6
+             
+             ]
+             
+minion = group [body,legs,leftArmNeutral,rightArmNeutral,clothes,hair,eyeStrap,eyeWhiteLayer,eyePupil,coverPupil,eyeGoggles,smile]
+             
+smile = group [ move (-5,-20) (filled black (oval 16 5)) |> rotate (degrees -15)
+              , move (-5, -19) (filled yellow (oval 16 5)) |> rotate (degrees -15)
+              , move (-13,-19) (filled black (rect 1 5)) |> rotate (degrees -30) 
+              ]
+neutral = group [ move (0, -23) (filled black (rect 9 1))]
+
+                
+eyeStrap = group [ move (-30,4) (filled black (rect 25 10)) |> scale 0.75
+            , move (30,4) (filled black (rect 25 10)) |> scale 0.75
+            , move (-40,4) (filled black (oval 5 10)) |> scale 0.75
+            , move (40,4) (filled black (oval 5 10)) |> scale 0.75
+            ]
+
+coverPupil = group [ move (0,4) (outlined (solid yellow) (circle 33)) |> scale 0.75
+                   , move (0,4) (outlined (solid yellow) (circle 32)) |> scale 0.75
+                   , move (0,4) (outlined (solid yellow) (circle 31)) |> scale 0.75
+                   ]
+eyeGoggles = group [ move (0,4) (outlined (solid darkGrey) (circle 30)) |> scale 0.75
+                   , move (0,4) (outlined (solid darkGrey) (circle 29.5)) |> scale 0.75
+                   , move (0,4) (outlined (solid darkGrey) (circle 29)) |> scale 0.75
+                   , move (0,4) (outlined (solid darkGrey) (circle 28.5)) |> scale 0.75
+                   , move (0,4) (outlined (solid darkGrey) (circle 28)) |> scale 0.75
+                   , move (0,4) (outlined (solid darkGrey) (circle 27.5)) |> scale 0.75
+                   , move (0,4) (outlined (solid darkGrey) (circle 27)) |> scale 0.75
+                   , move (0,4) (outlined (solid darkGrey) (circle 26.5)) |> scale 0.75
+                   , move (0,4) (outlined (solid darkGrey) (circle 26)) |> scale 0.75
+                   ]
+eyeWhiteLayer = group [ move (0,4) (filled white (circle 25)) |> scale 0.75]
+            
+eyePupil = group [ move (0,4) (filled darkBrown (circle 15)) |> scale 0.75 
+                 , move (0,4) (filled black (circle 10)) |> scale 0.75
+                 , move (-4,8) (filled white (circle 3)) |> scale 0.75
+                 ]
+            
+body = group [ move (0,-20) (filled yellow (polygon [(-40,60),(40,60),(40,-35),(-40,-35)]))
+             |> scale 0.9 
+             , move (0,30) (filled yellow (oval 73 40))
+             , move (-34,-9) (filled yellow (oval 16 86))
+             , move (34,-9) (filled yellow (oval 16 86))
+             , move (0, -47) (filled yellow (oval 73 40))
+             ]
+legs = group [ move (-9,-66) (filled darkBlue (oval 10 15)) |> rotate (degrees 20)
+             , move (9,-66) (filled darkBlue (oval 10 15)) |> rotate (degrees -20)
+             , move (-10,-73) (filled black (oval 10 5))
+             , move (7,-73) (filled black (oval 10 5))
+             ]
+
+rightArm = group [ move (45,-35) (filled yellow (oval 15 8))]
+rightForeArm = group [ (filled yellow (oval 7 14 ))
+                     , move (0,5) (filled black (rect 7 6))
+                     , move (-2,10) (filled black (oval 4 7)) |> rotate (degrees 10)
+                     , move (2,10) (filled black (oval 4 7)) |> rotate (degrees -10)
+                     , move (5,8) (filled black (oval 3 7)) |> rotate (degrees -30)
+                     ]
+
+leftArmNeutral = group [ move (-43,-35) (filled yellow (oval 15 7)) |> rotate (degrees 45)
+                , move (-46,-44) (filled yellow (oval 7 14))
+                , move (-46,-48) (filled black (rect 7 6))
+                , move (-46,-52) (filled black (oval 4 7)) |> rotate (degrees 10)
+                , move (-43,-52) (filled black (oval 4 7)) |> rotate (degrees 20)
+                , move (-49,-52) (filled black (oval 4 7)) |> rotate (degrees 0)
+                ]
+rightArmNeutral = group [ move (43,-35) (filled yellow (oval 15 7)) |> rotate (degrees 135)
+                        , move (46,-44) (filled yellow (oval 7 14))
+                        , move (46,-48) (filled black (rect 7 6))
+                        , move (46,-52) (filled black (oval 4 7)) |> rotate (degrees -15)
+                        , move (43,-52) (filled black (oval 4 7)) |> rotate (degrees -20)
+                        , move (49,-52) (filled black (oval 4 7)) |> rotate (degrees 10)
+                        ]                
+             
+clothes = group [ move (0, -46) (filled darkBlue (oval 78 42))
+                , move (0,-31) (filled yellow (rect 76 23))
+                , move (0,-36) (filled darkBlue (rect 45 20))
+                , move (22,-36) (filled darkBlue (polygon [(0,0),(0,10),(20,20),(20,12)]))
+                , move (-22,-36) (filled darkBlue (polygon [(0,0),(0,10),(-20,20),(-20,12)]))
+                , move (-18,-31) (filled black (circle 3))
+                , move (18,-31) (filled black (circle 3))
+                ]
+hair = move (0,47) (filled black (polygon [(-7,10),(-2,5),(0,7),(2,3),(4,4),(7,0),(-4,0)])) 
+       |> scale 2 
+       |> rotate (degrees -10)  
+                                </code>
+                                </pre>
+                            </div>
+                        </section>
+                        
+					
+                        
+                        
+<a href="../formatting/formatting.html" class="button fit">Previous Tutorial</a>
+<a href="../../menu/tutorials.html" class="button fit">Back to Tutorials</a>
+<a href="../bunny/bunny.html" class="button fit">Next Tutorial</a>                           
+
+							</div>
+						</section>
+					</article>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="http://www.twitter.com/MacCASOutreach" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="http://www.facebook.com/McMasterCASOutreach" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							
+							<li><a href="../../menu/contact.html" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy;legionn_&amp; code_blooded 2015 <br> McMaster Computing and Software 2015</br> </li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/init.js"></script>
+
+	</body>
+</html>

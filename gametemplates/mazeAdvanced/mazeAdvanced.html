@@ -1,0 +1,1061 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Maze Advanced</title>
+        
+        <link rel="apple-touch-icon" sizes="57x57" href="../../icons/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../../icons/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../../icons/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../../icons/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="../../icons/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../../icons/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="../../icons/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="../../icons/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="../../icons/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+        <link rel="manifest" href="../../icons/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="../../icons/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="assets/css/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../../assets/css/style.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie/v9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie/v8.css" /><![endif]-->
+    <link rel="stylesheet" href="../../assets/highlight/styles/default.css">
+    <script src="../../assets/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="../../index.html">MCMASTER <img src="../../images/shield.png" alt="" height="15" width="15"/> OUTREACH</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="../../index.html">Home</a></li>
+											<li><a href="../../menu/tutorials.html">Tutorials</a></li>
+                      <li><a href="../../menu/hackathon.html">Hackathon</a></li>
+                      <li><a href="../../menu/gametemplates.html">Game Templates</a></li>
+											<li><a href="../../menu/solutions.html">Solutions</a></li>
+                      <li><a href="../../menu/past.html">Past Workshops</a></li>
+                      <li><a href="../../menu/resources.html">Resources</a></li>
+                      <li><a href="../../menu/glossary.html">ElM Glossary</a></li>
+                      <li><a href="../../menu/tools.html">Tools</a></li>
+                      <li><a href="../../menu/fame.html">Hall Of Fame</a></li>
+                      <li><a href="../../menu/contact.html">Ask Us Questions?</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<article id="main">
+						<header>
+							<h2>Advanced Maze</h2>
+							<p>Now with touch functionality and puzzles!</p>
+						</header>
+						<section class="wrapper style5">
+							<div class="inner">
+<!-- Maze -->
+                        <a name="12"></a>
+						<section class="wrapper style5">
+							<div class="inner">
+								
+								<h3>Advanced Maze</h3>
+								<pre>
+<img src="../../examplepics/Maze Screenshot.png" alt="" height="480" width="320"/>
+<strong>Copy all of the following code into the Elm simulator</strong> <a href="http://elm-lang.org:1234/try" target="blank">here</a> and follow the instructions commented within the code to begin modifying the Maze game!
+                                <code>
+import Graphics.Element exposing (..)
+import Time exposing (..)
+import Window
+import Keyboard
+import Graphics.Collage exposing (..)
+import List exposing (..)
+import Color exposing (..)
+import Maybe
+import Array
+import Graphics.Input.Field exposing (Content, defaultStyle,noContent, field)
+
+
+--------------------- IGNORE THE CODE ABOVE THIS LINE -----------------------------
+
+import Text exposing (..)
+import String exposing (words)
+import Mouse
+import Touch
+import Graphics.Input exposing (..)
+{-
+ 1. Welcome to the maze game! You are playing as the orange circle by default.
+ An orange circle isn't that fun for a character, but you can change that.
+-}
+
+player : Form
+player = defaultPlayer
+
+
+-- >>>>>>> SEE IF YOU CAN CHANGE THE CUSTOMIZE THE DEFAULT PLAYER BELOW <<<<<<<<<
+
+defaultPlayer = 
+    group 
+      [ filled darkOrange (circle (blockSize / 2))
+      , filled orange (circle (blockSize / 3))
+      ]
+
+-- >>>>>>>>>>>> YOU CAN ALSO CHANGE THE PLAYER'S START LOCATION <<<<<<<<<<<<<<<<
+
+startLocation : (Int,Int)
+startLocation = (1,3)
+
+
+{-
+ 2. Your goal now is to get to the end of the maze (which is the yellow square).
+ Right now, you have no clear path to the end. There are red squares that are
+ blocking your path.
+
+>>>>>>>>>>>>>> Tap/Click On a Red Block and See What Happens! <<<<<<<<<<<<<<<
+
+ A window pops up and asks you to answer a question. You must answer the question
+ correctly in order to make the red square dissappear.
+
+ The values below represent the different types of color blocks you seen in the maze,
+              |     to the right. --------------------------------------------->
+-}--          |
+--            |
+--            |
+--            |
+--            |
+--            v
+
+gameBoard = [
+              [g,g,g,g,g,b,b,g,g,y]
+             ,[g,g,b,b,g,g,g,r,b,b]
+             ,[b,r,b,b,b,g,b,g,b,b]
+             ,[b,g,b,b,b,b,b,g,b,b]
+             ,[g,g,b,b,b,b,b,g,b,b]
+             ,[g,b,b,b,g,r,g,g,b,b]
+             ,[g,g,g,b,g,b,b,g,b,b]
+             ,[g,b,g,g,g,b,r,g,b,b]
+             ,[g,b,g,b,b,b,g,b,b,b]
+             ,[g,b,g,g,g,g,g,b,b,b]
+           ]
+
+-- >>>>>>>>>> CHANGE THE LETTERS IN 'GAMEBOARD' ABOVE TO ADD MORE RED BLOCKS <<<<<<<<<<<<
+
+{- The following are colors used in the maze.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  CHANGE THE COLOURS BELOW <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+-}
+
+g = green
+b = blue
+r = red
+y = yellow
+
+
+---------------------------------------------------------------------------------------
+
+{- 3 Make new questions below, and add them to this list -}
+
+questions : List(Question)
+questions = [q0,q1,q2,q3]
+
+{-
+  Then, you would need to define what 'question4' is.
+  For e.g., You can define a new question using the following format:
+
+    question4 =
+      { question = "15 - (-30)"       -- String
+      , op1 = "0"                     -- String
+      , op2 = "45"                    -- String
+      , op3 = "50"                    -- String
+      , op4 = "-15"                   -- String
+      , answer = 2                    -- Int
+      }
+
+  Note: op1, op2, op3, and op4 represent the 4 multiple choice answers.
+  Note:`answer` is a number from 1 to 4 telling you which multiple choice option is right
+
+-}
+
+q0 : Question
+q0 =
+  { question = "What is 2+2?"
+  , op1 = "1"
+  , op2 = "2"
+  , op3 = "4"
+  , op4 = "3"
+  , answer = 3 -- means op3 is right
+  }
+
+q1 : Question  
+q1 =
+  {question = "What is the value of x in 2x - 4 = 10 ?"
+  , op1 = "7"
+  , op2 = "6"
+  , op3 = "5"
+  , op4 = "8"
+  , answer = 1 -- means op1 is right
+  }
+
+q2 : Question
+q2 =
+  {question = "Which of the following option is a correct representation of 20%? "
+  , op1 = "2/100"
+  , op2 = "20"
+  , op3 = "20/10"
+  , op4 = "20/100"
+  , answer = 4 -- means op4 is right
+  }
+
+q3 : Question
+q3 =
+  { question = "The square root of 144, or √144 is..."
+  , op1 = "25"
+  , op2 = "12"
+  , op3 = "11"
+  , op4 = "13"
+  , answer = 2 -- means op2 is right
+  }
+
+-- question : Question
+-- question4 =
+--  { question = "15 - (-30)"
+--  , op1 = "0"
+--  , op2 = "45"
+--  , op3 = "50"
+--  , op4 = "-15"
+--  , answer = 2
+--  }
+
+
+
+{-
+ 4. Once you have gotten to the end of the maze, what happens? It would be
+ awesome if there was something to tell you that you won right? Modify the
+ code below to make an awesome winning image
+
+ awesomeWinScreen below is an example of an awesome winning image!
+
+-}
+
+winImage : Float -> Form
+winImage t = awesomeWinScreen
+              |> move (200,200)
+--            |> rotate (5*(sin (t/500)))
+
+-- >>>>>>>>>>>>>>>>>>>>>>>> CREATE A WINNING SCREEN <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+awesomeWinScreen =
+  group
+    [ move (0,0) (filled red (ngon 4 50))
+    , move (20,20) (filled red (circle 36))
+    , move (-20,20) (filled red (circle 36))
+    , move (0,0) (text (fromString "YOU WIN!"))
+    ]
+
+{-
+ 5. Now it's time to add challenges to the game!
+
+
+ Now you will have to complete the game before the health runs out. If health runs out,
+ you will not be able to move and have to recompile the game. By default, you will not
+ have enough health to complete the game. Find a way to get to the finish with health
+ on.
+
+ Hint: A Bool value can be either True or False
+
+-}
+
+-- >>>>>>>>>>>>>>>>> ENABLE HEALTH (in the healthEnabled variable below) <<<<<<<<<<<<<<<<
+healthEnabled : Bool
+healthEnabled = False
+
+-- >>>>>>>>>>>> SET PENALTIES FOR INCORRECT ANSWERS, AND SET THE GAME TIMER <<<<<<<<<<<<<
+
+incorrectPenalty : Int
+incorrectPenalty = 1 -- amount of health lost for selecting incorrect answer
+
+gameTimer : Int
+gameTimer = 30 -- the pop-up window will disappear after this many seconds
+
+timeOutPenalty : Int
+timeOutPenalty = 1 -- amount of health lost for not answering a question on time
+
+
+-- >>>>>>>>>>> CHANGE HOW MUCH HEALTH IS AWARDED FOR ANSWERING QUESTIONS <<<<<<<<<<<<<<<<
+
+pointsAwarded : Int
+pointsAwarded = 1 -- amount of health gained by answering a question correctly
+
+
+{-
+ 6. Good job! You've gotten very far, so now it is time for a different adventure!.
+ Once you enable the key below, you the game will change so that you must pick up
+ the key (which is an orange circle) before getting to the finish.
+
+ What's going on now? You can't get to the finish with this much health, and changing
+ the board won't give you enough.
+
+ Now, stop ignoring the code below the line, and see if you can change something to
+ allow you to get the key and still be able to get to the finish.
+-}
+
+
+
+keyEnabled : Bool
+keyEnabled = False
+
+keyLocation : (Int,Int)
+keyLocation = (0,0)
+
+
+
+----------------------- IGNORE THE CODE BELOW THIS LINE -----------------------------
+
+{- Globals / Helpers / Types -}
+
+heightDimension =  length gameBoard
+widthDimension = getWidth gameBoard
+blockSize = 50
+
+getWidth gameBoard =
+    case gameBoard of
+      (q::qs) -> length q
+      [] -> 0
+
+ithFromListHelper2 n l = Maybe.withDefault 0 (Array.get n (Array.fromList l))
+ithFromListHelper1 n l = Maybe.withDefault [0] (head (drop n l))
+ithFromList x y l = ithFromListHelper2 x (ithFromListHelper1 y l)
+
+lookForReds c = if c == red then 1
+              else 0
+
+mazeBoard colorBoard = List.map (List.map mazeBoardHelper) colorBoard
+mazeBoardHelper c = if c == g then 1
+                   else if c == b then 0
+                   else if c == r then 2
+                   else 3
+
+{-- User Input --}
+
+type alias Input = {x : Int, y : Int}
+
+type Direction = Left | Right | Up | Down
+
+type Option = One | Two | Three | Four
+
+direction : Signal.Mailbox Direction
+direction = Signal.mailbox Left
+
+optionChosen : Signal.Mailbox Option
+optionChosen = Signal.mailbox One
+
+type Update =  KeyBoardArrows Input| ScreenArrows Direction | AnswerSelected Option | Timer Time | Clock Time
+
+
+userInput : Signal Update
+userInput =
+  Signal.mergeMany
+    [ Signal.map KeyBoardArrows Keyboard.arrows
+--    , Signal.map Tap (Touch.taps)
+    , Signal.map ScreenArrows direction.signal
+    , Signal.map AnswerSelected optionChosen.signal
+    , Signal.map Timer (every second)
+    , Signal.map Clock (Signal.map (\t -> t/20) (fps 30))
+    ]
+
+
+
+{-- GAME MODEL --}
+
+type alias Character = {x : Int, y : Int}
+type alias Board = List (List (Int))
+type alias Locations = List (List (Int,Int))
+type alias Health = {isEnabled : Bool, healthAmount : Int}
+type alias Key = {isEnabled : Bool, hasKey : Bool, x : Int, y : Int}
+
+type alias Question = {question : String, op1 : String, op2 :String, op3 : String, op4 : String, answer: Int}
+
+type PlayerState = OnGreen
+                 | OnRed String -- message above question
+
+type alias GameState =
+             {
+                character : Character
+              , maze : Board
+              , hasWon: Bool
+              , health : Health
+              , key : Key
+              , questions : (Question, List (Question))
+              , timer : Int
+              , clock : Float
+              , playerState : PlayerState
+              , debug : String
+             }
+
+qpair : (Question, List (Question))
+qpair = case questions of
+          (q1::qs) -> (q1,qs)
+          []       -> ({question = "What is 1 + 1 ?",op1="1",op2="2",op3="3",op4="4",answer=2},[])
+
+defaultGame : GameState
+defaultGame = {
+                 character = {x = (fst startLocation), y = (snd startLocation)}
+               , maze = List.reverse (mazeBoard gameBoard)
+               , hasWon = False
+               , health = {isEnabled = healthEnabled, healthAmount = 14}
+               , key = {isEnabled = keyEnabled, hasKey = False, x = (fst keyLocation), y = (snd keyLocation)}
+               , questions = qpair
+               , timer = 0
+               , clock = 0
+               , playerState = OnGreen
+               , debug = ""
+             }
+
+
+{- UPDATE -}
+
+stepGame : Update -> GameState -> GameState
+stepGame input gameState =
+ case input of
+   Clock dt -> {gameState | clock = gameState.clock + dt}
+   Timer t -> case gameState.playerState of
+                OnGreen -> gameState
+                OnRed _ ->
+                  (if gameState.timer < gameTimer then {gameState | timer = gameState.timer + 1}
+                   else { gameState | timer = 0
+                        , playerState = OnRed "Select your answer by clicking on the buttons!"
+                        , health = { isEnabled = healthEnabled
+                                   , healthAmount = if healthEnabled then (deductHealth gameState.health.healthAmount timeOutPenalty)
+                                                    else gameState.health.healthAmount
+                                   }
+                        }
+                  )
+   AnswerSelected option ->
+    (let
+      correctAnswer = (fst gameState.questions).answer
+      n =
+        (case option of
+          One -> 1
+          Two -> 2
+          Three -> 3
+          Four -> 4
+        )
+      healthAmount = if healthEnabled then penaltyOrReward (n==correctAnswer) gameState.health.healthAmount else gameState.health.healthAmount
+    in
+        if (n == correctAnswer) then
+          { gameState |
+            playerState = OnGreen
+          , questions = case snd gameState.questions of
+                          [] -> ({question = "What is 1 + 1 ?",op1="1",op2="2",op3="3",op4="4",answer=2},[])
+                          [q1] -> (q1,questions)  -- restart the list
+                          (q1::qs) -> (q1,qs)
+          , maze =  updateMatrix  (gameState.character.x,gameState.character.y) gameState.maze
+          , health = {isEnabled = healthEnabled, healthAmount = healthAmount}
+          , debug = toString gameState.character
+          }
+        else
+          {gameState |
+            health = {isEnabled = healthEnabled, healthAmount = healthAmount}
+          , playerState = OnRed "Try Again!"
+          }
+    )
+
+   KeyBoardArrows input' -> updateCharacterLocation input' gameState
+
+   ScreenArrows direction ->
+     (let
+       input' =
+        (case direction of
+          Up -> {x = 0, y = 1}
+          Down -> {x = 0, y = -1}
+          Left -> {x = -1, y = 0}
+          Right -> {x = 1, y = 0}
+        )
+
+     in
+      updateCharacterLocation input' gameState
+     )
+
+-- Helper Functions for Update --
+
+penaltyOrReward reward health = if reward then health + pointsAwarded
+                                else deductHealth health incorrectPenalty
+
+
+deductHealth health amount = (if (health > 0) then
+                        (if (health - amount >= 0) then
+                            health - amount
+                         else
+                            0
+                        )
+                      else 0
+                      )
+
+-- moves character
+updateCharacterLocation input' gameState =
+     (let
+         hasWon = getHasWon input' gameState
+         hasCollided = getHasCollided input' gameState
+         healthAmount = getHealthAmount input' gameState
+         key = getKey input' gameState
+     in
+       if canUpdate input' gameState
+         then (case (gameState.playerState,nextBlock input' gameState == 2) of
+                 (OnGreen,False) -> { gameState |
+                                      character = {x = gameState.character.x + input'.x , y = gameState.character.y + input'.y}
+                                     ,maze = gameState.maze
+                                     ,hasWon = hasWon
+                                     ,health = {isEnabled = healthEnabled, healthAmount = healthAmount}
+                                     ,key = key
+                                    }
+                 (OnGreen,True) -> { gameState |
+                                      character = {x = gameState.character.x + input'.x , y = gameState.character.y + input'.y}
+                                     ,maze = gameState.maze
+                                     ,hasWon = hasWon
+                                     ,health = {isEnabled = healthEnabled, healthAmount = healthAmount}
+                                     ,key = key
+                                     ,playerState = OnRed "Select your answer by clicking a button!"
+                                    }
+                 otherwise -> gameState
+              )
+       else gameState
+     )
+
+extractQuestions list =
+    case list of
+      x::xs -> x
+      [] -> {question = "", op1="", op2="", op3="", op4="",answer=1}
+
+updateCharacterXY character input' hasCollided =
+      {character | x = character.x + input'.x , y = character.y + input'.y}
+
+-- the following change functions make a red square disappear after the user answers its question correctly
+changeSquare (x,y) new gb = case y of
+                                 0 -> case gb of
+                                        (topRow::rest) -> (changeInRow x new topRow) :: rest
+                                        [] -> [] -- should never happen
+                                 _ -> case gb of
+                                        (topRow::rest) -> topRow :: (changeSquare (x,y-1) new rest)
+                                        [] -> [] -- should never happen
+
+changeInRow x new row = case x of
+                      0 -> case row of
+                             (box::rest) -> new :: rest
+                             [] -> [] -- should never happen
+                      _ -> case row of
+                             (box::rest) -> box :: (changeInRow (x-1) new rest)
+                             [] -> [] -- should never happen
+
+updateMatrix (x,y) gameBoardOld = changeSquare (x,y) 1 gameBoardOld
+
+-- checks if hit a red block
+getHasCollided : Input -> GameState -> Bool
+getHasCollided userInput gameState =
+  let newX = userInput.x + gameState.character.x
+      newY = userInput.y + gameState.character.y
+  in
+    ithFromList newX newY gameState.maze == 2
+
+-- checks if game has been won
+getHasWon : Input -> GameState -> Bool
+getHasWon userInput gameState =
+              if ithFromList (userInput.x + gameState.character.x) (userInput.y + gameState.character.y) gameState.maze == 3
+              then if gameState.key.isEnabled
+                   then if gameState.key.hasKey
+                        then True
+                        else False
+                   else True
+              else False
+
+-- checks health
+getHealthAmount : Input -> GameState -> Int
+getHealthAmount userInput gameState =
+ if healthEnabled && canUpdate userInput gameState then gameState.health.healthAmount - 1
+ else gameState.health.healthAmount
+
+getKey : Input -> GameState -> Key
+getKey userInput gameState =
+ let
+     newKey = {isEnabled = True, hasKey = True, x = gameState.key.x, y = gameState.key.y}
+ in
+   if gameState.key.isEnabled
+   then
+       if
+         gameState.character.x == gameState.key.x &&
+         gameState.character.y == gameState.key.y
+       then newKey
+       else gameState.key
+   else gameState.key
+
+-- checks if character can move in this direction
+canUpdate : Input -> GameState -> Bool
+canUpdate userInput gameState =
+ if
+   nextBlock userInput gameState /= 0 &&  -- avoid wall
+   inBounds userInput gameState &&
+   healthValid gameState &&
+   not gameState.hasWon &&
+   exactlyOneKeyDown userInput
+ then True
+ else False
+
+-- checks if character will collide with the wall
+nextBlock : Input -> GameState -> Int
+nextBlock userInput gameState =
+  ithFromList (userInput.x + gameState.character.x) (userInput.y + gameState.character.y) gameState.maze
+
+inBounds : Input -> GameState -> Bool
+inBounds userInput gameState =
+ if (userInput.x + gameState.character.x < widthDimension && userInput.x + gameState.character.x >= 0)
+ then if (userInput.y + gameState.character.y < heightDimension && userInput.y + gameState.character.y >= 0)
+      then True
+      else False
+ else False
+
+healthValid : GameState -> Bool
+healthValid gameState = if gameState.health.isEnabled then (if gameState.health.healthAmount > 0 then True else False)
+                       else True
+
+exactlyOneKeyDown : Input -> Bool
+exactlyOneKeyDown userInput =
+ let
+   a = abs(userInput.x)
+   b = abs(userInput.y)
+ in
+   if abs(a) + abs(b) == 1 then True
+   else False
+
+
+
+{- DISPLAY -}
+
+--display : (Int,Int) -> GameState -> (Int, Int) -> {x: Int,y : Int}-> Element
+display (w,h) gameState (x,y) keys =
+  flow Graphics.Element.down
+  [
+     spacer w 50
+   , (collage w ((blockSize*heightDimension)+blockSize)
+   [ move (toFloat ((-1)*blockSize*widthDimension) / 2, toFloat ((-1)*blockSize*heightDimension) / 2)
+     (
+        if gameState.hasWon     then winImage gameState.clock
+        else group <|
+                                   [ drawMaze gameState.maze 0
+                                   , drawHealth gameState
+                                   , drawKey gameState
+                                   , drawPlayer gameState gameState.clock
+                                   ]
+                       ++ ( case gameState.playerState of
+                              OnGreen -> []
+                              OnRed message -> [popUpWindow (fst gameState.questions) message (gameTimer - gameState.timer)
+                                                 |> move (toFloat (blockSize*widthDimension) / 2, toFloat (blockSize*heightDimension) / 2)
+                                               ]
+                          )
+
+     )
+   ]
+  )
+   , spacer w 25
+   , container w 120 middle directions
+--   , show gameState.health.healthAmount
+--   , show (x,y)
+--   , show gameState.clock
+--   , show gameState.debug
+--   , show <| List.reverse gameState.maze
+--   , show gameState.timer
+--   , show (gameState.character.x, gameState.character.y)
+--   , show (keys.x + gameState.character.x, keys.y + gameState.character.y)
+--   , show(keys.x,keys.y)
+--   , show (ithFromList (keys.x + gameState.character.x) (keys.y + gameState.character.y) gameState.maze)
+--   , show (getHasCollided keys gameState)
+--   , show gameState.questions
+   ]
+
+-- directional buttons to navigate character
+
+directions : Element
+directions =
+    flow down
+      [ flow right
+          [  spacer 100 40
+          ,  button (Signal.message direction.address Up) "^"
+          ]
+      , flow right
+          [  button (Signal.message direction.address Left) "<"
+          ,  spacer 100 40
+          ,  button (Signal.message direction.address Right) ">"
+          ]
+      , flow right
+          [  spacer 100 40
+          ,  button (Signal.message direction.address Down) "v"
+          ]
+      ]
+
+popUpWindow questionData message timeLeft =
+  let
+    question =  questionData.question
+    op1 = questionData.op1
+    op2 = questionData.op2
+    op3 = questionData.op3
+    op4 = questionData.op4
+    answer = questionData.answer
+  in
+  group (
+  [ filled (hsla (degrees 210) 1 0.50 0.8) (rect 360 300)
+        |> move (-80, 100)
+    , rect 350 290
+        |> filled (hsla (degrees 360) 0 0 0.5)
+        |> move (-80, 100)
+    , circle 35
+        |> filled white
+        |> move (-80, 190)
+    , circle 18
+        |> filled black
+        |> move (-80, 200)
+    , circle 14
+        |> filled white
+        |> move (-80, 190)
+    , oval 9 18
+        |> filled black
+        |> move (-92, 198)
+    , oval 8 20
+        |> filled black
+        |> move (-89, 205)
+        |> rotate 91
+    , circle 8
+        |> filled white
+        |> move (-80, 200)
+    , oval 11 30
+        |> filled white
+        |> move (-70, 191)
+        |> rotate 50
+    , oval 10 35
+        |> filled black
+        |> move (-71, 191)
+        |> rotate 9
+    , ngon 4 6
+        |> filled black
+        |> rotate 161
+        |> move (-74, 179)
+    , circle 5
+        |> filled black
+        |> move (-74, 165)
+    , ngon 4 6
+        |> filled black
+        |> rotate 161
+        |> move (-68, 202)
+    , ngon 3 10
+        |> filled (hsl (degrees 204) 0.87 0.5)
+        |> rotate (122)
+        |> move (-80, 45)
+    , rect 40 40
+        |> filled white
+        |> move (10,-10)
+    , rect 40 40
+        |> filled white
+        |> move (10,40)
+    , rect 40 40
+        |> filled white
+        |> move (-170,-10)
+    , rect 40 40
+        |> filled white
+        |> move (-170,40)
+    , (text (bold (fromString message)))
+        |> move (-80,140)
+    , blockText question 300 textStyle
+        |> toForm
+        |> move (-75, 110)
+        |> scale 1
+    ]
+    ++ (if False && healthEnabled then [text (Text.color white (bold (fromString ("Time Left: " ++ toString timeLeft))))
+                                  |> move (0,200) ]
+               else []) ++
+    [ button (Signal.message optionChosen.address One) op1
+        |> toForm
+        |> move (-170, 40)
+    , button (Signal.message optionChosen.address Two) op2
+        |> toForm
+        |> move (10, 40)
+    , button (Signal.message optionChosen.address Three) op3
+        |> toForm
+        |> move (-170, -10)
+    , button (Signal.message optionChosen.address Four) op4
+        |> toForm
+        |> move (10, -10)
+    ]
+ )
+
+drawMaze : List (List (Int)) -> Int -> Form
+drawMaze rows y = case rows of
+ [] -> group [] -- don't draw an empty maze (shouldn't happen)
+ (l2h :: l2r) ->
+   if y < heightDimension - 1
+   then group [drawMaze1 l2h 0 (toFloat y), drawMaze l2r (y + 1)]
+ else drawMaze1 l2h 0 (toFloat y)
+
+
+drawMaze1 rows x y =
+ case rows of
+ [] -> group []
+ (l1h :: l1r) ->
+ if l1r == []
+ then drawMaze2 l1h x y
+ else group [drawMaze2 l1h x y, drawMaze1 l1r (x + 1) y]
+
+drawMaze2 e x y'  =
+ let
+   c = if e == 1 then g
+       else if e == 0 then b
+       else if e == 2 then r
+       else y
+ in
+   filled c (rect blockSize blockSize)
+
+     |> move (x * blockSize, y' * blockSize)
+
+drawHealth : GameState -> Form
+drawHealth gameState =
+ let
+   healthItems = move (250,250) (group [move (-26, 253) (text (Text.color red (fromString " HEALTH ")))
+                   , move (-25, 243) (outlined (solid black) (rect 500 30))
+                   , move (-25,-25) (outlined (solid black) (rect 501 501))
+                   , ( if gameState.health.healthAmount >= 0 then
+                        (move (-26,238) (filled red (rect (Basics.toFloat (25 * gameState.health.healthAmount)) 10)))
+                       else
+                        blankForm
+                     )
+                   ])
+   gameOver = scale 3 <| move (220, 550) <| text <| Text.color black (fromString " GAME OVER")
+ in
+   if healthEnabled then (if gameState.health.healthAmount <= 0 then group [healthItems, gameOver]
+                      else healthItems)
+   else blankForm
+
+drawKey : GameState -> Form
+drawKey gameState =
+ if gameState.key.isEnabled && not gameState.key.hasKey
+ then move ((Basics.toFloat gameState.key.x) * blockSize, (Basics.toFloat gameState.key.y) * blockSize) (keyShape)
+ else blankForm
+
+drawPlayer : GameState -> Float -> Form
+drawPlayer {character, maze} t = move ((Basics.toFloat character.x) * blockSize, (Basics.toFloat character.y) * blockSize) (player)
+
+-- font and style of text in the pop-up window
+textStyle : Style
+textStyle = { typeface = []
+                , height = Just 16
+                , color = white
+                , bold = True
+                , italic = False
+                , line = Nothing
+               }
+
+blockText:String -> Int -> Text.Style -> Element
+blockText string width style =
+  let getline:List String -> Int -> Text.Style -> String ->String  -> String
+      getline wordList width style acc1 acc2 =
+        case wordList of
+          []      -> acc2 ++ "\n" ++ acc1
+          (x::xs) -> let testLine = leftAligned << Text.style style << Text.fromString <|x ++ " " ++ acc1
+                     in if (widthOf testLine) < width then getline xs width style (acc1 ++ x ++ " ") acc2
+                        else getline wordList width style "" (acc2 ++ "\n" ++ acc1)
+  in leftAligned << Text.style style << Text.fromString <|getline (String.words string) width style "" ""
+
+
+-- Here are some built-in characters that you can use instead of the orange circle...
+
+blankForm = filled black (circle 0)
+
+batman = scale 0.3 (group
+   [ filled red (circle 80)
+        |> move (0,0) 
+   , filled lightRed (circle 70)
+        |> move (0,0) 
+   , filled black (circle 50)
+        |> move (0,0)
+   , filled brown (circle 50) 
+        |> move (0,0)
+        |> scale 0.9
+   , filled black (polygon [(-10,0),(0,-5),(10,0),(3,10),(-3,10)])
+        |> move (0,-4)
+        |> scale 5
+   , filled black (ngon 3 30)
+        |> move (29,35) 
+        |> rotate (degrees 70)
+   , filled black (ngon 3 30)
+        |> move (-29,35)
+        |> rotate (degrees 110)
+   , filled white (oval 40 20)
+        |> move (25,0)
+        |> rotate (degrees 30)
+   , filled black (rect 45 15)
+        |> move (25,8) 
+        |> rotate (degrees 20)
+   , filled white (oval 40 20)
+        |> move (-25,0) 
+        |> rotate (degrees 150)
+   , filled black (rect 45 15)
+        |> move (-25,8) 
+        |> rotate (degrees 160)
+   , filled black (rect 20 2)
+        |> move (0,-35)
+   , filled black (rect 5 2)
+        |> move (-12,-36) 
+        |> rotate (degrees 20)
+   , filled black (rect 5 2)
+        |> move (12,-36)  
+        |> rotate (degrees 160)
+   ])
+
+rabbit =
+     let
+         ear1 = move (-23,88) (group [ (filled black (oval 27 72)) |> rotate (degrees 25)
+               , (filled white (oval 25 70)) |> rotate (degrees 25)
+               , (filled darkGrey (oval 15 55)) |> rotate (degrees 25)])
+         ear2 = move (18,88) (group [ (filled black (oval 27 72)) |> rotate (degrees -20)
+               , (filled white (oval 25 70)) |> rotate (degrees -20)
+               , (filled darkGrey (oval 15 55)) |> rotate (degrees -20)])
+     in
+        scale 0.6 <| group [
+        -- Ears
+         ear1
+       , ear2
+       --
+       , move (-14,-22) (filled black (oval 10 20)) |> rotate (degrees -60)
+       , move (-14,-22) (filled white (oval 8 18)) |> rotate (degrees -60)
+       , move (3,-25) (filled black (oval 10 20)) |> rotate (degrees -50)
+       , move (3,-25) (filled white (oval 8 18)) |> rotate (degrees -50)
+       -- Body
+       , move (0,3) (filled black (oval 42 52))
+       , move (0,3) (filled white (oval 40 50))
+       -- Hands
+       , move (7,0) (filled black (oval 7 15)) |> rotate (degrees -30)
+       , move (7,0) (filled white (oval 5 13)) |> rotate (degrees -30)
+       , move (-7,0) (filled black (oval 7 15)) |> rotate (degrees 40)
+       , move (-7,0) (filled white (oval 5 13)) |> rotate (degrees 40)
+       , move (-12,5) (filled white (ngon 4 6)) |> rotate (degrees 0)
+       , move (11,6) (filled white (ngon 4 6)) |> rotate (degrees 20)
+       -- Face
+       , move (0,55) (filled white (circle 30))
+       , move (0,55) (filled black (circle 31))
+       , move (0,55) (filled white (circle 30))
+       , move (0,30) (filled black (oval 60 24))
+       , move (0,30) (filled white (oval 58 22))
+       -- Eyes
+       , move (-13,55) (filled black (oval 15 35))
+       , move (13,55) (filled black (oval 15 35))
+       , move (-13,55) (filled white (oval 13 32))
+       , move (13,55) (filled white (oval 13 32))
+       -- Pupils
+       , move (-13,55) (filled black (oval 9 27))
+       , move (13,55) (filled black (oval 9 27))
+       , move (-13,60) (filled white (circle 2.5))
+       , move (13,60) (filled white (circle 2.5))
+       , move (-14,55) (filled white (circle 1.5))
+       , move (12,55) (filled white (circle 1.5))
+       , move (0,35) (filled white (rect 45 20))
+       , move (-13,45) (filled black (rect 11 1))
+       , move (13,45) (filled black (rect 11 1))
+       -- Teeth
+       , move (-3,25) (filled black (rect 7 23))
+       , move (3,25) (filled black (rect 7 23))
+       , move (-3,25) (filled white (rect 5 21))
+       , move (3,25) (filled white (rect 5 21))
+       -- Mouth
+       , move (-5,30) (filled black (circle 5))
+       , move (5,30) (filled black (circle 5))
+       , move (-5,30) (filled white (circle 4))
+       , move (5,30) (filled white (circle 4))
+       , move (0,34) (filled white (rect 20 6))
+       -- Nose
+       , move (0,36) (filled black (ngon 3 6)) |> rotate (degrees 30)
+       , move (0,39) (filled black (oval 13 4)) |> scale 0.6
+       , move (3,35) (filled black (oval 13 4)) |> rotate (degrees 62) |> scale 0.6
+       , move (-3,35) (filled black (oval 13 4)) |> rotate (degrees 118) |> scale 0.6
+       , move (-2,35) (filled white (oval 8 2)) |> rotate (degrees 118) |> scale 0.6
+
+     ]
+
+keyShape = group [ filled black (oval 20 10)
+   , filled yellow (oval 19 9)
+   , filled black (oval 10 5)
+   , filled green (oval 9 4)
+   , (filled black (rect 10 5)) |> move (-5,-10)
+   , (filled black (rect 10 5)) |> move (-5,-17)
+   , (filled yellow (rect 9 4)) |> move (-5,-10)
+   , (filled yellow (rect 9 4)) |> move (-5,-17)
+   , (filled black (rect 5 15)) |> move (0,-12)
+   , (filled yellow (rect 4 14)) |> move (0,-12)
+   ] |> move (0,5)
+
+-- Putting it all together
+
+gameState : Signal GameState
+gameState =
+   Signal.foldp stepGame defaultGame userInput
+
+
+
+main : Signal Element
+main =
+   Signal.map4 display Window.dimensions gameState Mouse.position Keyboard.arrows
+
+                                </code>
+                                </pre>
+                            </div>
+                        </section>
+                        
+					
+                        
+                        
+<a href="../formatting/formatting.html" class="button fit">Previous Tutorial</a>
+<a href="../../menu/tutorials.html" class="button fit">Back to Tutorials</a>
+<a href="../bunny/bunny.html" class="button fit">Next Tutorial</a>                           
+
+							</div>
+						</section>
+					</article>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="http://www.twitter.com/MacCASOutreach" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="http://www.facebook.com/McMasterCASOutreach" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							
+							<li><a href="../../menu/contact.html" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy;legionn_&amp; code_blooded 2015 <br> McMaster Computing and Software 2015</br> </li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+			<script src="../../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../../assets/js/jquery.scrolly.min.js"></script>
+			<script src="../../assets/js/skel.min.js"></script>
+			<script src="../../assets/js/init.js"></script>
+
+	</body>
+</html>

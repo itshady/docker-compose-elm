@@ -1,0 +1,152 @@
+/*!
+ * Start Bootstrap - One Page Wonder (https://startbootstrap.com/template-overviews/one-page-wonder)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-one-page-wonder/blob/master/LICENSE)
+ */
+
+body {
+  padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+
+header.masthead {
+  background: url('../images/banner.jpg') no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+header.masthead>.overlay {
+  padding: 5rem 0;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: 992px) {
+  header.masthead>.overlay {
+    padding: 10rem 0;
+  }
+}
+
+hr {
+  border: solid 1px #791340;
+}
+
+.container-body {
+  margin-top:10em;
+  margin-bottom:10em;
+}
+
+.navbar {
+  border-bottom: solid 5px #791340;
+}
+
+.navbar-brand img {
+  width:80px;
+}
+
+.display-1 {
+  font-size:2em;
+}
+
+.display-4 {
+  font-size:1em;
+}
+
+.maroon-text {
+  color:#791340;
+  text-align:center;
+  margin-top:2em;
+}
+
+.header-button {
+  color:white;
+  padding:1em;
+  border: solid 2px white;
+}
+
+.logo > img {
+  width:100%;
+}
+
+.interested-text {
+  text-align: center;
+}
+
+
+.portfolio-item {
+  margin-bottom: 30px;
+}
+
+.pagination {
+  margin-bottom: 30px;
+}
+
+.contact-text {
+  font-size:1.5em;
+}
+
+#halloffame {
+  height: 100%;
+  width: 100%;
+}
+
+a {
+  color: #C50B5D;
+}
+
+a:hover {
+  color: #C50B5D;
+}
+
+.card {
+  padding: 1em;
+}
+
+.btn-primary {
+  background-color: #C50B5D;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #791340;
+}
+
+.card-title {
+  color:#C50B5D;
+}
+
+.activity-box {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.activity-name-text {
+  color: #C50B5D;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html, body {
+    height: 100%;
+}
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -100px;
+    padding-bottom: 100px;
+}
+footer {
+    height: 100px;
+}
+
+.whatwedo {
+    border: 10px solid #fefefe;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
+}

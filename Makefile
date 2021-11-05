@@ -5,8 +5,8 @@ RUN_IN_DOCKER = docker-compose run --user $$(id -u)
 build:
 	docker-compose build elm
 
-compile: build
-	${RUN_IN_DOCKER} elm make src/Main.elm
+#compile: build
+#	${RUN_IN_DOCKER} elm make src/Main.elm
 
 reactor: build
 	# NOTE: elm is the container, not the command
