@@ -9,4 +9,4 @@ WORKDIR /mnt
 VOLUME /mnt
 # NOTE: docker-compose mounts code in /mnt
 
-CMD ["outreach-mcmaster-ca/elm-bootstrap/optimize.sh"]
+RUN #!/bin/sh /mnt/outreach-mcmaster-ca/elm-bootstrap/optimize.sh --no-cache
