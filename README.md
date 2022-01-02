@@ -1,6 +1,6 @@
 Download Docker and docker-compose
 
-Pull https://github.com/itshady/docker-compose-elm
+Clone https://github.com/itshady/docker-compose-elm
 
 go to terminal and cd into the root folder
 
