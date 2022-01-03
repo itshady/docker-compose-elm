@@ -6,6 +6,7 @@ go to terminal and cd into the root folder
 
 #### In Command Prompt: ####
 * run make reactor
+* Ctrl P + Ctrl Q (to exit back to terminal)
 * run docker ps
 * run docker exec -it ***container name*** /mnt/optimize.sh
 
